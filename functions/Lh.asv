@@ -1,0 +1,11 @@
+function y = Lh(x, win, diffWin, W, shiftLen, fftLen, rotateFlag, zeroPhaseFlag, windowLen)
+    signal = zeroPaddingForDGT(x ,shiftLen,fftLen);
+    spec = DGT(signal,win,shiftLen,fftLen,rotateFlag,zeroPhaseFlag);
+    diffSpec = DGT(signal,diffWin,shiftLen,fftLen,rotateFlag,zeroPhaseFlag);
+    IF = calcInstFreq(spec,diffSpec,fftLen,windowLen,rotateFlag);
+    y = W.*Dt(instPhaseCorrection(, IF, shiftLen, fftLen));
+end
+
+function y = Dt(x)
+    y = x - [x(2:end,:);x(1,:)];
+end
